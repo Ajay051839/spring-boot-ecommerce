@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
+@RequestMapping("api")
 public class CategoryController {
     //private List<Category> categories=new ArrayList<>();
     private CategoryService categoryService;
@@ -19,7 +20,8 @@ public class CategoryController {
     }
 
     //@GetMapping("api/public/categories") -- below @RequestMapping is equivalent to this
-    @RequestMapping(value="api/public/categories", method=RequestMethod.GET)
+    //@RequestMapping(value="api/public/categories", method=RequestMethod.GET) //2-@RequestMapping at class
+    @RequestMapping(value="/public/categories", method=RequestMethod.GET) //2-@RequestMapping at class
     public ResponseEntity<List<Category>> getAllCategories(){
 
         //return categoryService.getAllCategories();
@@ -28,7 +30,8 @@ public class CategoryController {
     }
 
     //@PostMapping("api/public/categories")
-    @RequestMapping(value="api/public/categories", method=RequestMethod.POST)
+    //@RequestMapping(value="api/public/categories", method=RequestMethod.POST) //2-@RequestMapping at class
+    @RequestMapping(value="/public/categories", method=RequestMethod.POST) //2-@RequestMapping at class
     public ResponseEntity<String> createCategory(@RequestBody Category category){
         categoryService.createCategory(category);
         //return "Category added successfully.";
@@ -37,7 +40,7 @@ public class CategoryController {
 
 
     //@DeleteMapping("api/admin/categories/{categoryId}")
-    @RequestMapping(value="api/admin/categories/{categoryId}", method=RequestMethod.DELETE)
+    @RequestMapping(value="/admin/categories/{categoryId}", method=RequestMethod.DELETE)
     public ResponseEntity<String> deleteCategory(@PathVariable Long categoryId){
         try {
             String status = categoryService.deleteCategory(categoryId);
@@ -48,7 +51,7 @@ public class CategoryController {
     }
 
     //@PutMapping("api/public/categories/{categoryId}")
-    @RequestMapping(value="api/public/categories/{categoryId}", method=RequestMethod.PUT)
+    @RequestMapping(value="/public/categories/{categoryId}", method=RequestMethod.PUT)
     public ResponseEntity<String> updateCategory(@RequestBody Category category,
                                                  @PathVariable Long categoryId){
         try {
