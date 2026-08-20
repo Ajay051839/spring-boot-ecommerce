@@ -13,9 +13,9 @@ import lombok.NoArgsConstructor;
 import org.apache.logging.log4j.message.Message;
 
 @Entity(name="categories")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Data                   //lombok in action: A shortcut for @ToString, @EqualsAndHashCode, @Getter on all fields, @Setter on all non-final fields, and @RequiredArgsConstructor!
+@NoArgsConstructor      //lombok: will generate a constructor with no parameters
+@AllArgsConstructor     //lombok: generates a constructor with 1 parameter for each field in your class.
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
