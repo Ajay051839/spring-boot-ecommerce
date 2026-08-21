@@ -1,5 +1,6 @@
 package com.ecommerce.project.service;
 
+import com.ecommerce.project.exceptions.ResourceNotFoundException;
 import com.ecommerce.project.model.Category;
 import com.ecommerce.project.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +62,14 @@ public class CategoryServiceImpl implements CategoryService {
         //1234:Optimization
         //List<Category> categories=categoryRepository.findAll(); //Repository added
         //1234
-        Category savedCategory=categoryRepository.findById(categoryId).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Resource not found"));
+
+        //######## Commented out Below lines to use custom "ResourceNotFoundException"
+        //Category savedCategory=categoryRepository.findById(categoryId).
+        //orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Resource not found"));
+
+        Category savedCategory=categoryRepository.findById(categoryId).
+                 orElseThrow(()->new ResourceNotFoundException("category","categoryId",categoryId));
+
         category.setCategoryId(categoryId);
         savedCategory=categoryRepository.save(category);
         return savedCategory;
