@@ -1,5 +1,6 @@
 package com.ecommerce.project.service;
 
+import com.ecommerce.project.exceptions.APIException;
 import com.ecommerce.project.exceptions.ResourceNotFoundException;
 import com.ecommerce.project.model.Category;
 import com.ecommerce.project.repositories.CategoryRepository;
@@ -24,15 +25,28 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> getAllCategories(){
-
         //return categories;
-        return categoryRepository.findAll();
+        //return categoryRepository.findAll();
+        //Code added to throw error when no category is present..
+        List<Category> savedCategory=categoryRepository.findAll();
+        if(savedCategory.isEmpty()){
+            throw new APIException("No Category exists.");
+        }
+        return savedCategory;
+
     }
 
     @Override
     public void createCategory(Category category){
         //category.setCategoryId(nextId++);
         //categories.add(category);
+
+        //JPA will create SQL automatically & implementation for findByCategoryName method just need to follow certain naming convention
+        Category savedCategory=categoryRepository.findByCategoryName(category.getCategoryName());
+        //API Exception- Custom Exception
+        if(savedCategory!=null){
+            throw new APIException("Category with name " + category.getCategoryName() + " already exists !!!");
+        }
         categoryRepository.save(category);
     }
 
