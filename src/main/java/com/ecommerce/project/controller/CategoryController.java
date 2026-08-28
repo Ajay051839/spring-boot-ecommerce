@@ -1,6 +1,7 @@
 package com.ecommerce.project.controller;
 
 import com.ecommerce.project.model.Category;
+import com.ecommerce.project.payload.CategoryResponse;
 import com.ecommerce.project.service.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -25,10 +26,10 @@ public class CategoryController {
     //@GetMapping("api/public/categories") -- below @RequestMapping is equivalent to this
     //@RequestMapping(value="api/public/categories", method=RequestMethod.GET) //2-@RequestMapping at class
     @RequestMapping(value="/public/categories", method=RequestMethod.GET) //2-@RequestMapping at class
-    public ResponseEntity<List<Category>> getAllCategories(){
-
+    public ResponseEntity<CategoryResponse>  getAllCategories(){
+    //public ResponseEntity<List<Category>> getAllCategories(){
         //return categoryService.getAllCategories();
-        List<Category> categories=categoryService.getAllCategories();
+        CategoryResponse categories=categoryService.getAllCategories();
         return new ResponseEntity<>(categories,HttpStatus.OK);
     }
 

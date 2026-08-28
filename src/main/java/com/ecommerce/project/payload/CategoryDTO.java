@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//It is for Client Request
+//CategoryDTO encapsulates transfer of data from Client to Server
 public class CategoryDTO {
     private Long categoryId;
     private String categoryName;
