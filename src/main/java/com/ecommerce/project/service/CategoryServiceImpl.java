@@ -56,9 +56,9 @@ public class CategoryServiceImpl implements CategoryService {
         Category category=modelMapper.map(categoryDTO,Category.class);
 
         //JPA will create SQL automatically & implementation for findByCategoryName method just need to follow certain naming convention
-        Category savedCategory=categoryRepository.findByCategoryName(category.getCategoryName());
+        Category categoryFromDB=categoryRepository.findByCategoryName(category.getCategoryName());
         //API Exception- Custom Exception
-        if(savedCategory!=null){
+        if(categoryFromDB!=null){
             throw new APIException("Category with name " + category.getCategoryName() + " already exists !!!");
         }
         Category newSavedCategory=categoryRepository.save(category);
@@ -87,7 +87,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category updateCategory(Category category, Long categoryId) {
+    public CategoryDTO updateCategory(CategoryDTO categoryDTO, Long categoryId) {
         //1234:Optimization
         //List<Category> categories=categoryRepository.findAll(); //Repository added
         //1234
@@ -98,10 +98,10 @@ public class CategoryServiceImpl implements CategoryService {
 
         Category savedCategory=categoryRepository.findById(categoryId).
                  orElseThrow(()->new ResourceNotFoundException("category","categoryId",categoryId));
-
+        Category category=modelMapper.map(categoryDTO,Category.class);
         category.setCategoryId(categoryId);
         savedCategory=categoryRepository.save(category);
-        return savedCategory;
+        return modelMapper.map(savedCategory,CategoryDTO.class);
 
         //1234
 //        Optional<Category> optionalCategory=categories.stream().filter(c->c.getCategoryId().equals(categoryId))
