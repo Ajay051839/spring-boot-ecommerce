@@ -48,9 +48,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void createCategory(Category category){
+    public CategoryDTO createCategory(CategoryDTO categoryDTO){
         //category.setCategoryId(nextId++);
         //categories.add(category);
+
+        //After DTO Impl
+        Category category=modelMapper.map(categoryDTO,Category.class);
 
         //JPA will create SQL automatically & implementation for findByCategoryName method just need to follow certain naming convention
         Category savedCategory=categoryRepository.findByCategoryName(category.getCategoryName());
@@ -58,7 +61,8 @@ public class CategoryServiceImpl implements CategoryService {
         if(savedCategory!=null){
             throw new APIException("Category with name " + category.getCategoryName() + " already exists !!!");
         }
-        categoryRepository.save(category);
+        Category newSavedCategory=categoryRepository.save(category);
+        return modelMapper.map(newSavedCategory, CategoryDTO.class);
     }
 
     @Override
