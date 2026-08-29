@@ -12,6 +12,6 @@ public interface CategoryService {
     //DTO Impl
     //void createCategory(Category category);
     CategoryDTO createCategory(CategoryDTO category);
-    String deleteCategory(Long categoryId);
+    CategoryDTO deleteCategory(Long categoryId);
     CategoryDTO updateCategory(CategoryDTO categoryDTO, Long categoryId);
 }
