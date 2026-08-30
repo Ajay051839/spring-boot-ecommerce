@@ -19,7 +19,6 @@ import java.util.stream.Stream;
 public class CategoryController {
     //private List<Category> categories=new ArrayList<>();
     private CategoryService categoryService;
-
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
@@ -60,5 +59,13 @@ public class CategoryController {
 
 
     }
+
+    //just mock echo API for @RequestParam
+    @GetMapping("/echo")
+    public ResponseEntity<String> getEchoedMessage(@RequestParam(name="message")String message){
+        String messageEchoed="Echoed message: "+message;
+        return new ResponseEntity<>(messageEchoed,HttpStatus.OK);
+    }
+
 
 }
