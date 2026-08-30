@@ -6,8 +6,11 @@ import com.ecommerce.project.model.Category;
 import com.ecommerce.project.payload.CategoryDTO;
 import com.ecommerce.project.payload.CategoryResponse;
 import com.ecommerce.project.repositories.CategoryRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -29,11 +32,15 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     //After DTO implementation return type changes
     //public List<Category> getAllCategories(){
-    public CategoryResponse getAllCategories(){
+    // IMP-PGN; Implementing Pagination
+    public CategoryResponse getAllCategories(Integer pageNumber, Integer pageSize){
+        // IMP-PGN; Implementing Pagination
+        Pageable pageDetails= PageRequest.of(pageNumber,pageSize);
         //return categories;
-        //return categoryRepository.findAll();
+        //return categoryRepository.findAll();ß
         //Code added to throw error when no category is present..
-        List<Category> savedCategories=categoryRepository.findAll();
+        // IMP-PGN; Implementing Pagination
+        List<Category> savedCategories=categoryRepository.findAll(pageDetails).getContent();
         if(savedCategories.isEmpty()){
             throw new APIException("No Category exists.");
         }

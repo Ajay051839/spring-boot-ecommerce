@@ -23,13 +23,19 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
+    // IMP-PGN; Implementing Pagination
     //@GetMapping("api/public/categories") -- below @RequestMapping is equivalent to this
     //@RequestMapping(value="api/public/categories", method=RequestMethod.GET) //2-@RequestMapping at class
     @RequestMapping(value="/public/categories", method=RequestMethod.GET) //2-@RequestMapping at class
-    public ResponseEntity<CategoryResponse>  getAllCategories(){
+    public ResponseEntity<CategoryResponse>  getAllCategories(
+            @RequestParam(name="pageNumber")Integer pageNumber,
+            @RequestParam(name="pageSize")Integer pageSize
+    ){
     //public ResponseEntity<List<Category>> getAllCategories(){
         //return categoryService.getAllCategories();
-        CategoryResponse categories=categoryService.getAllCategories();
+        // IMP-PGN; Implementing Pagination
+        //CategoryResponse categories=categoryService.getAllCategories();
+        CategoryResponse categories=categoryService.getAllCategories(pageNumber,pageSize);
         return new ResponseEntity<>(categories,HttpStatus.OK);
     }
 
