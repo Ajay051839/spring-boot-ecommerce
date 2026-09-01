@@ -48,4 +48,5 @@ INSERT INTO CATEGORIES (category_Name) VALUES
 ('Cleaning Essentials'),
 ('Safety & Security Systems'),
 ('Software & Digital Codes'),
+('Gift Cards & Movies'),
 ('Gift Cards & Vouchers');
