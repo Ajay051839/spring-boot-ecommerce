@@ -9,6 +9,7 @@ import com.ecommerce.project.repositories.CategoryRepository;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -40,6 +41,7 @@ public class CategoryServiceImpl implements CategoryService {
         //return categoryRepository.findAll();ß
         //Code added to throw error when no category is present..
         // IMP-PGN; Implementing Pagination
+        Page<Category> categoryPage=categoryRepository.findAll(pageDetails);
         List<Category> savedCategories=categoryRepository.findAll(pageDetails).getContent();
         if(savedCategories.isEmpty()){
             throw new APIException("No Category exists.");
@@ -49,9 +51,15 @@ public class CategoryServiceImpl implements CategoryService {
                 .map(category -> modelMapper.map(category,CategoryDTO.class))
                 .toList();
         //return savedCategories;
-        CategoryResponse categories=new CategoryResponse();
-        categories.setContent(categoryDTOs);
-        return categories;
+        CategoryResponse categoryResponse=new CategoryResponse();
+        categoryResponse.setContent(categoryDTOs);
+        categoryResponse.setPageNumber(categoryPage.getNumber());
+        categoryResponse.setPageSize(categoryPage.getSize());
+        categoryResponse.setTotalElements(categoryPage.getTotalElements());
+        categoryResponse.setTotalPages(categoryPage.getTotalPages());
+        categoryResponse.setLastPage(categoryPage.isLast());
+
+        return categoryResponse;
     }
 
     @Override
